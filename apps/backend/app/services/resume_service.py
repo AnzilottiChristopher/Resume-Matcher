@@ -147,9 +147,10 @@ class ResumeService:
         prompt_template = prompt_factory.get("structured_resume")
         prompt = prompt_template.format(
             json.dumps(json_schema_factory.get("structured_resume"), indent=2),
-            resume_text,
+            # Do not log the full prompt to avoid sensitive data exposure
+            "[REDACTED SENSITIVE DATA]",
         )
-        logger.info(f"Structured Resume Prompt: {prompt}")
+        # Removed logging of full prompt to prevent sensitive data exposure
         raw_output = await self.json_agent_manager.run(prompt=prompt)
 
         try:
